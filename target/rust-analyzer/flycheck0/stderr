@@ -1,0 +1,7 @@
+    Updating crates.io index
+error: failed to select a version for the requirement `komodo_client = "^0.7"`
+candidate versions found which didn't match: 1.19.5, 1.19.4, 1.19.3, ...
+location searched: crates.io index
+required by package `komodo-stack-deployer v0.2.0 (/Users/john/CODE/remote_github/komodo_stacks_actions)`
+if you are looking for the prerelease package it needs to be specified explicitly
+    komodo_client = { version = "1.16.4-preclient" }

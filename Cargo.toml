@@ -1,0 +1,11 @@
+[package]
+name = "komodo-stack-deployer"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+komodo_client = "0.7"

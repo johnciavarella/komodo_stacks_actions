@@ -1,0 +1,73 @@
+name: Deploy Komodo Stack
+
+on:
+  workflow_dispatch:
+    inputs:
+      komodo_address:
+        description: "Komodo API endpoint"
+        required: true
+      komodo_api_key:
+        description: "Komodo API key"
+        required: true
+      komodo_api_secret:
+        description: "Komodo API secret"
+        required: true
+      stack_name:
+        description: "Name of the stack to deploy"
+        required: true
+      stack_config_path:
+        description: "Path to the stack configuration TOML file"
+        default: "./komodo/stack-config.toml"
+        required: false
+      stack_env_path:
+        description: "Path to the stack.env file"
+        default: "./komodo/stack.env"
+        required: false
+
+  # Optional: Allow this to be reused by other workflows
+  workflow_call:
+    inputs:
+      komodo_address:
+        required: true
+        type: string
+      komodo_api_key:
+        required: true
+        type: string
+      komodo_api_secret:
+        required: true
+        type: string
+      stack_name:
+        required: true
+        type: string
+      stack_config_path:
+        required: false
+        type: string
+        default: "./komodo/stack-config.toml"
+      stack_env_path:
+        required: false
+        type: string
+        default: "./komodo/stack.env"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build deployer
+        run: cargo build --release
+
+      - name: Deploy Komodo stack
+        env:
+          KOMODO_ADDRESS: ${{ inputs.komodo_address }}
+          KOMODO_API_KEY: ${{ inputs.komodo_api_key }}
+          KOMODO_API_SECRET: ${{ inputs.komodo_api_secret }}
+          STACK_NAME: ${{ inputs.stack_name }}
+          STACK_CONFIG_PATH: ${{ inputs.stack_config_path }}
+          STACK_ENV_PATH: ${{ inputs.stack_env_path }}
+        run: ./target/release/komodo-stack-deployer

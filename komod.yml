@@ -1,0 +1,10 @@
+jobs:
+  deploy-prod:
+    uses: ./.github/workflows/deploy-komodo.yml
+    with:
+      komodo_address: ${{ secrets.KOMODO_ADDRESS }}
+      komodo_api_key: ${{ secrets.KOMODO_API_KEY }}
+      komodo_api_secret: ${{ secrets.KOMODO_API_SECRET }}
+      stack_name: my-stack
+      stack_config_path: ./komodo/stack-config.toml
+      stack_env_path: ./environments/prod.env
